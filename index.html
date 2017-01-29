@@ -1,0 +1,557 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>Learning Javascript</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    
+    <h2>Blackjack</h2>
+    <p>Here are the rules..</p>
+    
+    
+    <p>Dealers Cards: </p>
+    
+    
+    
+    
+    <p id="betAmount">Bet Amount: </p>
+    
+    <p id="userCards">User's Cards: </p>
+    
+    <p id="totalMoney">Total Money: </p>
+    
+    
+    
+    <button id="dealCards">Deal Cards</button>
+    
+    <button id="hit">Hit</button>
+    <button id="stay">Stay</button>
+    
+    <h3>Clear Bet: </h3>
+    <button id="clearBtn">Clear</button>
+    
+    <h3>Choose what to bet: </h3>
+    <button id="bet1">1</button>
+    <button id="bet5">5</button>
+    <button id="bet10">10</button>
+    <button id="bet25">25</button>
+    <button id="bet50">50</button>
+    
+    
+    
+<!-- Things to work on..
+
+I need to give the player 2 cards and the dealer 2 cards.. How?
+
+Use the random var as the index number for the cards[random]..        
+
+cards[random] cards[0] is equal to dAce, cards[51] is equal to sKing
+
+Do I need to have another array for the values of each of the cards? Can I use something like.. [[dTwo, 2], [dThree, 3]]
+
+Then I would use the value of the cards to do the math on a winning hand versus a losing hand
+
+
+Maybe instead of an array of card names, I use an array of numbers 1-52, which I could then use to write something like..
+..Need two random numbers first and second card (this would be when the "dealCards" button is pressed)..
+if(random == 1) {document.getElementById("userCards").innerHTML = "User's Cards: Ace";}
+if(random == 2) {document.getElementById("userCards").innerHTML = document.getElementById("userCards").innerHTML + ", Two";}
+
+Same thing for the Dealer Cards.. (need to show the first card, hide the second card)
+
+
+-->
+    
+    <script type="text/javascript">
+        
+        // var to store the user card value
+        
+        var userCardValue = 0;
+        
+        // var for storing user amounts
+        
+        var userMoney = 100;
+        var userBetAmount = 0;
+        
+        // var for bet sizes
+        
+        var oneDollar = 1;
+        var fiveDollar = 5;
+        var tenDollar = 10;
+        var twentyFive = 25;
+        var fiftyDollar = 50;
+        
+        // Var for quoted text
+        
+        var totalText = "Total Money: ";
+        var betText = "Bet Amount: ";
+        
+        // This sets the users total money to my userMoney var, not needed when I let the user add money or set their money
+        
+        document.getElementById("totalMoney").innerHTML = document.getElementById("totalMoney").innerHTML + userMoney;
+        
+        
+        
+//        /*
+//        - this will give the card value for each card
+//        */
+//        function cardValue(int num1, int num2) {
+//            
+//            // Card Number One
+//            
+//            var cardNumOne = 0;
+//            
+//            var random = Math.random();
+//            random = 13 * random;
+//            random = Math.floor(random);
+//            
+//            if(random == 0) {
+//                cardNumOne = 11; // Ace: 11
+//            } else if (random == 1) {
+//                cardNumOne = 2; // Two: 2
+//            } else if (random == 2) {
+//                cardNumOne = 3; // Three: 3
+//            } else if (random == 3) {
+//                cardNumOne = 4; // Four: 4
+//            } else if (random == 4) {
+//                cardNumOne = 5; // Five: 5
+//            } else if (random == 5) {
+//                cardNumOne = 6; // Six: 6
+//            } else if (random == 6) {
+//                cardNumOne = 7; // Seven: 7
+//            } else if (random == 7) {
+//                cardNumOne = 8; // Eight: 8
+//            } else if (random == 8) {
+//                cardNumOne = 9; // Nine: 9
+//            } else if (random == 9) {
+//                cardNumOne = 10; // Ten: 10
+//            } else if (random == 10) {
+//                cardNumOne = 10; // Jack: 10
+//            } else if (random == 11) {
+//                cardNumOne = 10; // Queen: 10
+//            } else if (random == 12) {
+//                cardNumOne = 10; // King: 10
+//            }
+//            
+//            // Card Number 2
+//            
+//            var cardNumTwo = 0;
+//            
+//            var rNumber = Math.random();
+//            rNumber = 13 * rNumber;
+//            rNumber = Math.floor(rNumber);
+//            
+//            if(rNumber == 0) {
+//                cardNumTwo = 11; // Ace: 11
+//            } else if (rNumber == 1) {
+//                cardNumTwo = 2; // Two: 2
+//            } else if (rNumber == 2) {
+//                cardNumTwo = 3; // Three: 3
+//            } else if (rNumber == 3) {
+//                cardNumTwo = 4; // Four: 4
+//            } else if (rNumber == 4) {
+//                cardNumTwo = 5; // Five: 5
+//            } else if (rNumber == 5) {
+//                cardNumTwo = 6; // Six: 6
+//            } else if (rNumber == 6) {
+//                cardNumTwo = 7; // Seven: 7
+//            } else if (rNumber == 7) {
+//                cardNumTwo = 8; // Eight: 8
+//            } else if (rNumber == 8) {
+//                cardNumTwo = 9; // Nine: 9
+//            } else if (rNumber == 9) {
+//                cardNumTwo = 10; // Ten: 10
+//            } else if (rNumber == 10) {
+//                cardNumTwo = 10; // Jack: 10
+//            } else if (rNumber == 11) {
+//                cardNumTwo = 10; // Queen: 10
+//            } else if (rNumber == 12) {
+//                cardNumTwo = 10; // King: 10
+//            }
+//            
+//            cardNumOne = num1;
+//            
+//            cardNumTwo = num2;
+//            
+//        }
+        
+        
+        
+        
+        /*
+        - Math for random card selection.. this creates a random number between 0 and 51 (which is equal to cards)
+        */
+        document.getElementById("dealCards").onclick=function() {
+            
+            // Card One
+            
+            var cardNumOne = 0;
+            
+            var theCard = "";
+            
+            var random = Math.random();
+        
+            random = 13 * random;
+        
+            random = Math.floor(random);
+            
+            if(random == 0) {
+                theCard = "Ace";
+                cardNumOne = 11;
+            } else if (random == 1) {
+                theCard = "Two";
+                cardNumOne = 2;
+            } else if (random == 2) {
+                theCard = "Three";
+                cardNumOne = 3;
+            } else if (random == 3) {
+                theCard = "Four";
+                cardNumOne = 4;
+            } else if (random == 4) {
+                theCard = "Five";
+                cardNumOne = 5;
+            } else if (random == 5) {
+                theCard = "Six";
+                cardNumOne = 6;
+            } else if (random == 6) {
+                theCard = "Seven";
+                cardNumOne = 7;
+            } else if (random == 7) {
+                theCard = "Eight";
+                cardNumOne = 8;
+            } else if (random == 8) {
+                theCard = "Nine";
+                cardNumOne = 9;
+            } else if (random == 9) {
+                theCard = "Ten";
+                cardNumOne = 10;
+            } else if (random == 10) {
+                theCard = "Jack";
+                cardNumOne = 10;
+            } else if (random == 11) {
+                theCard = "Queen";
+                cardNumOne = 10;
+            } else if (random == 12) {
+                theCard = "King";
+                cardNumOne = 10;
+            }
+            
+            // Card Two
+            
+            var cardType = "";
+            var cardNumTwo = 0;
+            
+            var rNumber = Math.random();
+            rNumber = 13 * rNumber;
+            rNumber = Math.floor(rNumber);
+            
+            if(rNumber == 0) {
+                cardType = "Ace";
+                cardNumTwo = 11;
+            } else if (rNumber == 1) {
+                cardType = "Two";
+                cardNumTwo = 2;
+            } else if (rNumber == 2) {
+                cardType = "Three";
+                cardNumTwo = 3;
+            } else if (rNumber == 3) {
+                cardType = "Four";
+                cardNumTwo = 4;
+            } else if (rNumber == 4) {
+                cardType = "Five";
+                cardNumTwo = 5;
+            } else if (rNumber == 5) {
+                cardType = "Six";
+                cardNumTwo = 6;
+            } else if (rNumber == 6) {
+                cardType = "Seven";
+                cardNumTwo = 7;
+            } else if (rNumber == 7) {
+                cardType = "Eight";
+                cardNumTwo = 8;
+            } else if (rNumber == 8) {
+                cardType = "Nine";
+                cardNumTwo = 9;
+            } else if (rNumber == 9) {
+                cardType = "Ten";
+                cardNumTwo = 10;
+            } else if (rNumber == 10) {
+                cardType = "Jack";
+                cardNumTwo = 10;
+            } else if (rNumber == 11) {
+                cardType = "Queen";
+                cardNumTwo = 10;
+            } else if (rNumber == 12) {
+                cardType = "King";
+                cardNumTwo = 10;
+            }
+            
+            var totalNum = cardNumOne + cardNumTwo;
+            
+            // this will change cardNumOne to 1 if both cards are Aces
+            
+        
+            
+            // this gives a special message if you score 21
+            
+            if (totalNum != 21) {
+            document.getElementById("userCards").innerHTML = document.getElementById("userCards").innerHTML + theCard + ", " + cardType + ". Your total is, " + totalNum + ".";
+            } else {
+               document.getElementById("userCards").innerHTML = document.getElementById("userCards").innerHTML + theCard + ", " + cardType + ". Blackjack!"; 
+            }
+            
+            userCardValue = totalNum;
+            
+            document.getElementById("dealCards").style.display = "none";
+        }
+        
+        
+        
+        
+        /*
+        - This will clear the bet amount and reset the users total money
+        */
+        document.getElementById("clearBtn").onclick=function() {
+            
+            if(userBetAmount != 0) {
+            
+            document.getElementById("betAmount").innerHTML = betText;
+            
+            // reset the total money to 100
+            
+            document.getElementById("totalMoney").innerHTML = totalText;
+            
+            // if the bet amount is 0 don't run.. 
+            
+            userMoney = userMoney + userBetAmount;
+            
+            document.getElementById("totalMoney").innerHTML = document.getElementById("totalMoney").innerHTML + userMoney;
+                
+            }
+            
+            userBetAmount = 0;
+        }
+        
+        
+        
+        
+        
+        
+        /*
+        --*-- HIT/STAY LOGIC BELOW --*--
+        */
+        
+        
+        
+        /*
+        - this will add another card to the players hand, and add the card value to the total card value
+        */
+        document.getElementById("hit").onclick=function() {
+                 
+            // Card One
+            
+            var cardNumOne = 0;
+            
+            var theCard = "";
+            
+            var random = Math.random();
+        
+            random = 13 * random;
+        
+            random = Math.floor(random);
+            
+            if(random == 0) {
+                theCard = "Ace";
+                cardNumOne = 11;
+            } else if (random == 1) {
+                theCard = "Two";
+                cardNumOne = 2;
+            } else if (random == 2) {
+                theCard = "Three";
+                cardNumOne = 3;
+            } else if (random == 3) {
+                theCard = "Four";
+                cardNumOne = 4;
+            } else if (random == 4) {
+                theCard = "Five";
+                cardNumOne = 5;
+            } else if (random == 5) {
+                theCard = "Six";
+                cardNumOne = 6;
+            } else if (random == 6) {
+                theCard = "Seven";
+                cardNumOne = 7;
+            } else if (random == 7) {
+                theCard = "Eight";
+                cardNumOne = 8;
+            } else if (random == 8) {
+                theCard = "Nine";
+                cardNumOne = 9;
+            } else if (random == 9) {
+                theCard = "Ten";
+                cardNumOne = 10;
+            } else if (random == 10) {
+                theCard = "Jack";
+                cardNumOne = 10;
+            } else if (random == 11) {
+                theCard = "Queen";
+                cardNumOne = 10;
+            } else if (random == 12) {
+                theCard = "King";
+                cardNumOne = 10;
+            }
+            
+            userCardValue = userCardValue + cardNumOne;
+        }
+        
+        
+        /*
+        - this will cause the dealer to flip his hand
+        */
+        document.getElementById("stay").onclick=function() {
+            
+            // random math
+            
+            
+            
+            
+            // assigning card values
+            
+            
+        }
+        
+        
+        
+        
+        /*
+        --*-- BETTING LOGIC BELOW --*--
+        */
+        
+        
+        
+        /*
+        - This will add $1 to the bet amount and minus $1 from the users total money
+        */
+        document.getElementById("bet1").onclick=function() {
+            
+            // add the amount to the total money and the bet amount
+            
+            document.getElementById("betAmount").innerHTML = betText;
+            
+            userBetAmount = userBetAmount + oneDollar;
+            
+            document.getElementById("betAmount").innerHTML = document.getElementById("betAmount").innerHTML + userBetAmount;
+            
+            document.getElementById("totalMoney").innerHTML = totalText;
+            
+            userMoney = userMoney - oneDollar;
+            
+            document.getElementById("totalMoney").innerHTML = document.getElementById("totalMoney").innerHTML + userMoney;
+            
+            
+        }
+    
+        /*
+        - This will add $5 to the bet amount and minus $5 from the users total money
+        */
+        document.getElementById("bet5").onclick=function() {
+            
+            // add the amount to the total money and the bet amount
+            
+            document.getElementById("betAmount").innerHTML = betText;
+            
+            userBetAmount = userBetAmount + fiveDollar;
+            
+            document.getElementById("betAmount").innerHTML = document.getElementById("betAmount").innerHTML + userBetAmount;
+            
+            // Total Money Logic
+            
+            document.getElementById("totalMoney").innerHTML = totalText;
+            
+            userMoney = userMoney - fiveDollar;
+            
+            document.getElementById("totalMoney").innerHTML = document.getElementById("totalMoney").innerHTML + userMoney;
+            
+            
+        }
+        
+        /*
+        - This will add $10 to the bet amount and minus $10 from the users total money
+        */
+        document.getElementById("bet10").onclick=function() {
+            
+            // add the amount to the total money and the bet amount
+            
+            document.getElementById("betAmount").innerHTML = betText;
+            
+            userBetAmount = userBetAmount + tenDollar;
+            
+            document.getElementById("betAmount").innerHTML = document.getElementById("betAmount").innerHTML + userBetAmount;
+            
+            document.getElementById("totalMoney").innerHTML = totalText;
+            
+            userMoney = userMoney - tenDollar;
+            
+            document.getElementById("totalMoney").innerHTML = document.getElementById("totalMoney").innerHTML + userMoney;
+            
+            
+        }
+        
+        /*
+        - This will add $25 to the bet amount and minus $25 from the users total money
+        */
+        document.getElementById("bet25").onclick=function() {
+            
+            // add the amount to the total money and the bet amount
+            
+            document.getElementById("betAmount").innerHTML = betText;
+            
+            userBetAmount = userBetAmount + twentyFive;
+            
+            document.getElementById("betAmount").innerHTML = document.getElementById("betAmount").innerHTML + userBetAmount;
+            
+            document.getElementById("totalMoney").innerHTML = totalText;
+            
+            userMoney = userMoney - twentyFive;
+            
+            document.getElementById("totalMoney").innerHTML = document.getElementById("totalMoney").innerHTML + userMoney;
+                
+            
+        }
+        
+        /*
+        - This will add $50 to the bet amount and minus $50 from the users total money
+        */
+        document.getElementById("bet50").onclick=function() {
+            
+            // add the amount to the total money and the bet amount
+            
+            document.getElementById("betAmount").innerHTML = betText;
+            
+            userBetAmount = userBetAmount + fiftyDollar;
+            
+            document.getElementById("betAmount").innerHTML = document.getElementById("betAmount").innerHTML + userBetAmount;
+            
+            document.getElementById("totalMoney").innerHTML = totalText;
+            
+            userMoney = userMoney - fiftyDollar;
+            
+            document.getElementById("totalMoney").innerHTML = document.getElementById("totalMoney").innerHTML + userMoney;
+            
+            
+        }
+        
+        
+        
+    </script>
+    
+    
+</body>
+</html>
