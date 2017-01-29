@@ -17,5 +17,5 @@ A game of 21, player versus dealer.
 * I want to create a responsive layout that will scale, using bootstrap.
 
 -
-
+![Blackjack Application](http://imgur.com/Vl7DgZc.png)
 
