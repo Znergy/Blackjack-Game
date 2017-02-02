@@ -22,6 +22,9 @@ var cardTwo = "";
 var cardThree = "";
 var cardFour = "";
 
+var dealerCardOne = "";
+var dealerCardTwo = "";
+
 // var for game state
 
 var winner = true;
@@ -29,6 +32,7 @@ var winner = true;
 // var to store the user card value
 
 var userCardValue = 0;
+var dealerCardValue = 0;
 
 // var for storing user amounts
 
@@ -93,6 +97,13 @@ document.getElementById("clearBtn").onclick=function() {
 - This is for controlling the stay action
 */
 
+/*
+- If dealerCardValue is less than userCardValue then we need a hit function to occur
+- If dealerCardValue is greater than or equal to 17, then game over. Compare to the userCardValue, see who wins
+- If dealerCardValue is greater than 17, but equal to the user, the tie game.
+- 
+*/
+
 document.getElementById("stayx").onclick=function() {
     
     // This also will trigger the dealer to receive cards.. and also inform the player if he won or lost..
@@ -101,6 +112,137 @@ document.getElementById("stayx").onclick=function() {
     document.getElementById("hitAgain").style.display = "none";
     document.getElementById("stayx").style.display = "none";
     document.getElementById("playAgain").style.display = "block";
+    
+    // Card One
+
+    var cardNumOne = 0;
+
+    var theCard = "";
+
+    var random = Math.random();
+
+    random = 13 * random;
+
+    random = Math.floor(random);
+
+    if(random == 0) {
+        theCard = "Ace";
+        cardNumOne = 11;
+    } else if (random == 1) {
+        theCard = "Two";
+        cardNumOne = 2;
+    } else if (random == 2) {
+        theCard = "Three";
+        cardNumOne = 3;
+    } else if (random == 3) {
+        theCard = "Four";
+        cardNumOne = 4;
+    } else if (random == 4) {
+        theCard = "Five";
+        cardNumOne = 5;
+    } else if (random == 5) {
+        theCard = "Six";
+        cardNumOne = 6;
+    } else if (random == 6) {
+        theCard = "Seven";
+        cardNumOne = 7;
+    } else if (random == 7) {
+        theCard = "Eight";
+        cardNumOne = 8;
+    } else if (random == 8) {
+        theCard = "Nine";
+        cardNumOne = 9;
+    } else if (random == 9) {
+        theCard = "Ten";
+        cardNumOne = 10;
+    } else if (random == 10) {
+        theCard = "Jack";
+        cardNumOne = 10;
+    } else if (random == 11) {
+        theCard = "Queen";
+        cardNumOne = 10;
+    } else if (random == 12) {
+        theCard = "King";
+        cardNumOne = 10;
+    }
+
+    // Card Two
+
+    var cardType = "";
+    var cardNumTwo = 0;
+
+    var rNumber = Math.random();
+    rNumber = 13 * rNumber;
+    rNumber = Math.floor(rNumber);
+
+    if(rNumber == 0) {
+        cardType = "Ace";
+        cardNumTwo = 11;
+    } else if (rNumber == 1) {
+        cardType = "Two";
+        cardNumTwo = 2;
+    } else if (rNumber == 2) {
+        cardType = "Three";
+        cardNumTwo = 3;
+    } else if (rNumber == 3) {
+        cardType = "Four";
+        cardNumTwo = 4;
+    } else if (rNumber == 4) {
+        cardType = "Five";
+        cardNumTwo = 5;
+    } else if (rNumber == 5) {
+        cardType = "Six";
+        cardNumTwo = 6;
+    } else if (rNumber == 6) {
+        cardType = "Seven";
+        cardNumTwo = 7;
+    } else if (rNumber == 7) {
+        cardType = "Eight";
+        cardNumTwo = 8;
+    } else if (rNumber == 8) {
+        cardType = "Nine";
+        cardNumTwo = 9;
+    } else if (rNumber == 9) {
+        cardType = "Ten";
+        cardNumTwo = 10;
+    } else if (rNumber == 10) {
+        cardType = "Jack";
+        cardNumTwo = 10;
+    } else if (rNumber == 11) {
+        cardType = "Queen";
+        cardNumTwo = 10;
+    } else if (rNumber == 12) {
+        cardType = "King";
+        cardNumTwo = 10;
+    }
+
+    var totalNum = cardNumOne + cardNumTwo;
+
+    // this will change cardNumOne to 1 if both cards are Aces
+    if(random == 0 && rNumber == 0) {
+        cardNumOne = 1;
+    }
+
+    // this gives a special message if you score 21
+
+    if (totalNum != 21) {
+    document.getElementById("dealerCards").innerHTML = document.getElementById("dealerCards").innerHTML + theCard + ", " + cardType + ". Your total is, " + totalNum + ".";
+    } else {
+       document.getElementById("dealerCards").innerHTML = document.getElementById("dealerCards").innerHTML + theCard + ", " + cardType + ". Blackjack!";
+    }
+
+    dealerCardValue = totalNum;
+    
+    dealerCardOne = theCard;
+    dealerCardTwo = cardType;
+    
+    if (dealerCardValue > 21) {
+        alert("Dealer busted!");
+    } else if (dealerCardValue == userCardValue) {
+        alert("Dealer has Blackjack, you lose.")
+    } else if (dealerCardValue < userCardValue) {
+        alert("You win!");
+    }
 }
 
 /*
@@ -459,15 +601,6 @@ document.getElementById("hitAgain").onclick=function() {
 }
 
 
-/*
-- this will cause your hand to be final
-*/
-document.getElementById("stay").onclick=function() {
-
-
-}
-
-
 
 
 /*
@@ -482,6 +615,8 @@ document.getElementById("stay").onclick=function() {
 document.getElementById("bet1").onclick=function() {
 
     // add the amount to the total money and the bet amount
+    
+    alert("Bet 1 worked");
 
     document.getElementById("betAmount").innerHTML = betText;
 
