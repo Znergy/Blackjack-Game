@@ -250,6 +250,9 @@ document.getElementById("stayx").onclick=function() {
 */
 document.getElementById("playAgain").onclick=function() {
     resetGame();
+    
+    document.getElementById("dealerCards").innerHTML = "Dealer Cards: ";
+    
 }
 
 function resetGame() {
@@ -262,6 +265,8 @@ function resetGame() {
     document.getElementById("dealCards").style.display="block";
     
     userCardValue = 0;
+    
+    dealerCardValue = 0;
     
     document.getElementById("userCards").innerHTML = "User's Cards: ";
     
@@ -722,4 +727,163 @@ document.getElementById("bet50").onclick=function() {
 
 
 }
+
+
+
+
+
+
+// changes..
+
+
+/*
+var card = 0;
+
+function getCard() {
+    
+    
+    var randOne = Math.random();
+    randOne = randOne * 13;
+    randOne = randOne.floor(randOne);
+    
+    
+    if (randOne == 0) {
+        randName = "Ace";
+    } else if (randOne == 1) {
+        randName = "Two";
+    } else if (randOne == 2) {
+        randName = "Three";
+    } else if (randOne == 3) {
+        randName = "Four";
+    } else if (randOne == 4) {
+        randName = "Five";
+    } else if (randOne == 5) {
+        randName = "Six";
+    } else if (randOne == 6) {
+        randName = "Seven";
+    } else if (randOne == 7) {
+        randName = "Eight";
+    } else if (randOne == 8) {
+        randName = "Nine";
+    } else if (randOne == 9) {
+        randName = "Ten";
+    } else if (randOne == 10) {
+        randName = "Jack";
+    } else if (randOne == 11) {
+        randName = "Queen";
+    } else if (randOne == 12) {
+        randName = "King";
+    }
+    
+    card = randOne; // use card to set each card value 
+    cardName = randName; // use cardName to set each card name
+    
+}
+
+
+/* 
+- first two cards
+*/
+
+/*
+getCard(); // first card
+firstCard = card; // stores first value
+getCard(); // second card
+secondCard = firstCard - card; // stores second value (subtracting may not be necessary)
+cardTotalx = firstCard + secondCard; // sets card total value
+
+/* 
+- all cards after..
+*/
+
+/*
+getCard(); // third card
+thirdCard = secondCard - card; // stores third value
+cardTotalx = cardNumberOne + cardNumberTwo + cardNumberThree; // sets card total value
+
+
+
+
+
+function stayxl() {
+    
+    getCard();
+    firstCard = card;
+    cardTotalx = firstCard;
+    firstName = cardName;
+    
+    getCard();
+    secondCard = card;
+    cardTotalx = cardTotalx + secondCard;
+    secondName = cardName;
+    
+    document.getElementById("dealersCards").innerHTML = "Dealer Cards: " 
+        + firstDealerName + ", " + secondDealerName + ". Total is " + dealerCardTotal ".";
+    
+    
+    
+    
+}
+
+
+document.getElementById("hitButton").onclick=function() {
+    
+    hitx();
+    
+    // print out
+    document.getElementById("usersCards").innerHTML = "User Cards: "
+        + firstUserName + ", " + secondUserName + ", " + thirdUserName + ". Total is " + userCardTotal + ".";
+    
+}
+
+// each time player hits we need a new card
+
+function hitx() {
+    
+    getCard(); // random value set to card
+    thirdCard = card;
+    userCardTotal = userCardTotal + thirdCard;
+     = cardName;
+    
+}
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
