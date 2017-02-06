@@ -21,6 +21,7 @@ var cardOne = "";
 var cardTwo = "";
 var cardThree = "";
 var cardFour = "";
+var cardFive = "";
 
 var dealerCardOne = "";
 var dealerCardTwo = "";
@@ -59,6 +60,12 @@ document.getElementById("totalMoney").innerHTML = document.getElementById("total
 document.getElementById("hitAgain").style.display="none";
 
 document.getElementById("playAgain").style.display="none";
+
+document.getElementById("hit").style.display="none";
+
+document.getElementById("stayx").style.display="none";
+
+document.getElementById("hitOnceMore").style.display = "none";
 
 
 
@@ -219,8 +226,9 @@ document.getElementById("stayx").onclick=function() {
     var totalNum = cardNumOne + cardNumTwo;
 
     // this will change cardNumOne to 1 if both cards are Aces
-    if(random == 0 && rNumber == 0) {
+    if(cardNumOne == 0 && cardNumTwo == 0) {
         cardNumOne = 1;
+        cardNumTwo = 11;
     }
 
     // this gives a special message if you score 21
@@ -235,23 +243,86 @@ document.getElementById("stayx").onclick=function() {
     
     dealerCardOne = theCard;
     dealerCardTwo = cardType;
-    
-    if (dealerCardValue > 21) {
-        alert("Dealer busted!");
-    } else if (dealerCardValue == userCardValue) {
-        alert("Dealer has Blackjack, you lose.")
-    } else if (dealerCardValue < userCardValue) {
-        alert("You win!");
+
+        
+    if (dealerCardValue > 21 || dealerCardValue < userCardValue && userCardValue <= 21) {
+        alert("You won, " + userBetAmount);
+        userMoney = userMoney + (userBetAmount * 2);
+        
+        document.getElementById("totalMoney").innerHTML = "Total Money: " + userMoney;
+        
+        userBetAmount = 0;
+        document.getElementById("betAmount").innerHTML = "Bet Amount: " + userBetAmount;
+        
+    } else if (dealerCardValue <= 21 && dealerCardValue > userCardValue) {
+        alert("You lost, " + userBetAmount);
+        
+        document.getElementById("totalMoney").innerHTML = "Total Money: " + userMoney;
+        
+        userBetAmount = 0;
+        document.getElementById("betAmount").innerHTML = "Bet Amount: " + userBetAmount;
+    } else if (userCardValue == dealerCardValue) {
+        alert("You tied, and got " + userBetAmount + " back.");
+        userMoney = userMoney + userBetAmount;
+        
+        document.getElementById("totalMoney").innerHTML = "Total Money: " + userMoney;
+        
+        userBetAmount = 0;
+        document.getElementById("betAmount").innerHTML = "Bet Amount: " + userBetAmount;
+    } else if (userCardValue > 21) {
+        alert("You lost, " + userBetAmount);
+        
+        document.getElementById("totalMoney").innerHTML = "Total Money: " + userMoney;
+        
+        userBetAmount = 0;
+        document.getElementById("betAmount").innerHTML = "Bet Amount: " + userBetAmount;
+        
     }
+    
+    resetGame();
 }
 
 /*
 - This will wipe everything clear, the user cards, card values, etc.
 */
 document.getElementById("playAgain").onclick=function() {
+    
+    if (dealerCardValue > 21 || dealerCardValue < userCardValue && userCardValue <= 21) {
+        alert("You won, " + userBetAmount);
+        userMoney = userMoney + (userBetAmount * 2);
+        
+        document.getElementById("totalMoney").innerHTML = "Total Money: " + userMoney;
+        
+        userBetAmount = 0;
+        document.getElementById("betAmount").innerHTML = "Bet Amount: " + userBetAmount;
+        
+    } else if (dealerCardValue <= 21 && dealerCardValue > userCardValue) {
+        alert("You lost, " + userBetAmount);
+        
+        document.getElementById("totalMoney").innerHTML = "Total Money: " + userMoney;
+        
+        userBetAmount = 0;
+        document.getElementById("betAmount").innerHTML = "Bet Amount: " + userBetAmount;
+    } else if (userCardValue == dealerCardValue) {
+        alert("You tied, and got " + userBetAmount + " back.");
+        userMoney = userMoney + userBetAmount;
+        
+        document.getElementById("totalMoney").innerHTML = "Total Money: " + userMoney;
+        
+        userBetAmount = 0;
+        document.getElementById("betAmount").innerHTML = "Bet Amount: " + userBetAmount;
+    } else if (userCardValue > 21) {
+        alert("You lost, " + userBetAmount);
+        
+        document.getElementById("totalMoney").innerHTML = "Total Money: " + userMoney;
+        
+        userBetAmount = 0;
+        document.getElementById("betAmount").innerHTML = "Bet Amount: " + userBetAmount;
+        
+    }
+    
     resetGame();
     
-    document.getElementById("dealerCards").innerHTML = "Dealer Cards: ";
     
 }
 
@@ -269,11 +340,12 @@ function resetGame() {
     dealerCardValue = 0;
     
     document.getElementById("userCards").innerHTML = "User's Cards: ";
+    document.getElementById("dealerCards").innerHTML = "Dealer Cards: ";
     
     document.getElementById("playAgain").style.display = "none";
     
-    document.getElementById("hit").style.display = "block";
-    document.getElementById("stayx").style.display = "block";
+    document.getElementById("hit").style.display = "none";
+    document.getElementById("stayx").style.display = "none";
     
 }
 
@@ -282,6 +354,10 @@ function resetGame() {
 - Math for random card selection.. this creates a random number between 0 and 51 (which is equal to cards)
 */
 document.getElementById("dealCards").onclick=function() {
+    
+    if(userBetAmount == 0) {
+        alert("place a bet");
+    } else {
 
     // Card One
 
@@ -386,12 +462,12 @@ document.getElementById("dealCards").onclick=function() {
         cardNumTwo = 10;
     }
 
-    var totalNum = cardNumOne + cardNumTwo;
-
     // this will change cardNumOne to 1 if both cards are Aces
     if(random == 0 && rNumber == 0) {
         cardNumOne = 1;
     }
+    
+    var totalNum = cardNumOne + cardNumTwo;
 
     // this gives a special message if you score 21
 
@@ -408,11 +484,18 @@ document.getElementById("dealCards").onclick=function() {
     cardOne = theCard;
     cardTwo = cardType;
     
-    if (userCardValue > 21 || userCardValue == 21) {
+    if (userCardValue >= 21) {
         document.getElementById("hit").style.display="none";
+        document.getElementById("hitOnceMore").style.display="none";
         document.getElementById("hitAgain").style.display = "none";
-        document.getElementById("stay").style.display="none";
+        document.getElementById("stayx").style.display="none";
         document.getElementById("playAgain").style.display = "block";
+    } else if (userCardValue < 21) {
+        document.getElementById("hit").style.display = "block";
+        document.getElementById("hitOnceMore").style.display="none";
+        document.getElementById("hitAgain").style.display = "none";
+        document.getElementById("stayx").style.display = "block";
+    }
     }
 }
 
@@ -421,8 +504,6 @@ document.getElementById("dealCards").onclick=function() {
 - this will add another card to the players hand
 */
 document.getElementById("hit").onclick=function() {
-
-    if(userCardValue < 21) {
 
     // Card One
 
@@ -480,28 +561,27 @@ document.getElementById("hit").onclick=function() {
     cardThree = theCard;
 
     userCardValue = userCardValue + cardNumOne;
-        
-    } else {
-        alert("You busted. Play again?");
-    }
+    
     
     if (userCardValue > 21) {
-        showPlayAgain();
+        document.getElementById("hit").style.display="none";
+        document.getElementById("hitAgain").style.display = "none";
+        document.getElementById("stayx").style.display="none";
+        document.getElementById("playAgain").style.display = "block";
     } else if (userCardValue < 21) {
-        document.getElementById("hitAgain").style.display="block";
-        document.getElementById("dealCards").style.display = "none";
-        document.getElementById("hit").style.display = "none";
+        document.getElementById("hitAgain").style.display = "block";
+        document.getElementById("hit").style.display="none";
+        document.getElementById("hitOnceMore").style.display="none";
         document.getElementById("stayx").style.display = "block";
-        document.getElementById("playAgain").style.display = "none";
     } else {
-        showPlayAgain();
+        document.getElementById("stayx").style.display="block";
     }
         
     if(userCardValue > 21) {
         document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ". You busted, with a total of " + userCardValue + ".";
         winner = false;
     } else if (userCardValue == 21) {
-        document.getElementById("userCards").innerHTML = document.getElementById("userCards").innerHTML + cardOne + ", " + cardTwo + ", " + cardThree + ". Blackjack!";
+        document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ". Your total is, 21. You have Blackjack.";
         winner = true;
     } else {
         document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ". Your total is " + userCardValue + ". Would you like to hit again or stay?";
@@ -522,8 +602,6 @@ function showPlayAgain () {
 - this will add another card to the players hand
 */
 document.getElementById("hitAgain").onclick=function() {
-
-    if(userCardValue < 21) {
 
     // Card One
 
@@ -582,29 +660,112 @@ document.getElementById("hitAgain").onclick=function() {
 
     userCardValue = userCardValue + cardNumOne;
         
-    } else {
-        alert("You busted. Play again?");
-    }
-        
     if(userCardValue > 21) {
-        document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ". You busted, with a total of " + userCardValue + ".";
+        document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ", " + cardFour + ". You busted, with a total of " + userCardValue + ".";
         winner = false;
     } else if (userCardValue == 21) {
-        document.getElementById("userCards").innerHTML = document.getElementById("userCards").innerHTML + cardOne + ", " + cardTwo + ", " + cardThree + ". Blackjack!";
+        document.getElementById("userCards").innerHTML = document.getElementById("userCards").innerHTML + cardOne + ", " + cardTwo + ", " + cardThree + ", " + cardFour + ". Your total is 21, Blackjack!";
         winner = true;
-    } else {
-        document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ". Your total is " + userCardValue + ". Would you like to hit again or stay?";
+    } else if (userCardValue < 21) {
+        document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ", " + cardFour + ". Your total is " + userCardValue + ". Would you like to hit again or stay?";
     }
     
-    if (userCardValue > 21 || userCardValue == 21) {
+    if (userCardValue >= 21) {
         document.getElementById("hit").style.display="none";
         document.getElementById("hitAgain").style.display = "none";
         document.getElementById("stay").style.display="none";
         document.getElementById("playAgain").style.display = "block";
-}
+    } else if (userCardValue < 21) {
+        document.getElementById("hitOnceMore").style.display = "block";
+        document.getElementById("hitAgain").style.display="none";
+        document.getElementById("hit").style.display = "none";
+        document.getElementById("stayx").style.display = "block";
+    }
 
 }
 
+/*
+- this will add another card to the players hand
+*/
+document.getElementById("hitOnceMore").onclick=function() {
+
+    // Card One
+
+    var cardNumOne = 0;
+
+    var theCard = "";
+
+    var random = Math.random();
+
+    random = 13 * random;
+
+    random = Math.floor(random);
+
+    if(random == 0) {
+        theCard = "Ace";
+        cardNumOne = 11;
+    } else if (random == 1) {
+        theCard = "Two";
+        cardNumOne = 2;
+    } else if (random == 2) {
+        theCard = "Three";
+        cardNumOne = 3;
+    } else if (random == 3) {
+        theCard = "Four";
+        cardNumOne = 4;
+    } else if (random == 4) {
+        theCard = "Five";
+        cardNumOne = 5;
+    } else if (random == 5) {
+        theCard = "Six";
+        cardNumOne = 6;
+    } else if (random == 6) {
+        theCard = "Seven";
+        cardNumOne = 7;
+    } else if (random == 7) {
+        theCard = "Eight";
+        cardNumOne = 8;
+    } else if (random == 8) {
+        theCard = "Nine";
+        cardNumOne = 9;
+    } else if (random == 9) {
+        theCard = "Ten";
+        cardNumOne = 10;
+    } else if (random == 10) {
+        theCard = "Jack";
+        cardNumOne = 10;
+    } else if (random == 11) {
+        theCard = "Queen";
+        cardNumOne = 10;
+    } else if (random == 12) {
+        theCard = "King";
+        cardNumOne = 10;
+    }
+        
+    cardFive = theCard;
+
+    userCardValue = userCardValue + cardNumOne;
+        
+    if(userCardValue > 21) {
+        document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ", " + cardFour + ", " + cardFive + ". You busted, with a total of " + userCardValue + ".";
+        winner = false;
+    } else if (userCardValue == 21) {
+        document.getElementById("userCards").innerHTML = document.getElementById("userCards").innerHTML + cardOne + ", " + cardTwo + ", " + cardThree + ", " + cardFour + ", " + cardFive + ". Your total is 21, Blackjack!";
+        winner = true;
+    } else if (userCardValue < 21) {
+        document.getElementById("userCards").innerHTML = "User's Cards: " + cardOne + ", " + cardTwo + ", " + cardThree + ", " + cardFour + ", " + cardFive + ". Your total is " + userCardValue + ". Would you like to hit again or stay?";
+    }
+    
+    if (userCardValue >= 21) {
+        document.getElementById("hit").style.display="none";
+        document.getElementById("hitAgain").style.display = "none";
+        document.getElementById("stay").style.display="none";
+        document.getElementById("playAgain").style.display = "block";
+    } else if (userCardValue < 21) {
+        alert("need one more card");
+    }
+
+}
 
 
 
